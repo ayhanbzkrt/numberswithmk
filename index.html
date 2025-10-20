@@ -6,15 +6,18 @@
 <title id="pageTitle">Sayılarla Millet Kütüphanesi</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
 /* GENEL STİLLER */
 body {
     font-family: "Poppins", sans-serif;
     color: #fff;
     margin: 0;
-    overflow-x: hidden;
+    /* KAYDIRMA HATASI DÜZELTİLDİ: Sadece yatay kaydırma gizli */
+    overflow-x: hidden; 
     position: relative;
     min-height: 100vh;
+    background: #0b1a33; 
 }
 
 /* YENİ: ARKA PLAN BANNER VE ÜZERİNE KARARTICI KATMAN */
@@ -22,20 +25,20 @@ body::before {
     content: "";
     position: fixed;
     inset: 0;
-    /* Yeni arka plan banner'ı */
-    background: url('https://mk.gov.tr/GalleryFiles/56/banner-compressed-65863c7d-c86d-4ff1-bb3d-862129291357.png') no-repeat center center fixed;
-    background-size: cover; /* Tüm alanı kapla */
-    filter: brightness(0.4) grayscale(0.2); /* Hafif karartma ve gri tonlama */
-    z-index: -2; /* En arkaya gönder */
+    background: url('https://mk.gov.tr/GalleryFiles/237/calisma-saatleri-resized-compressor-6c1bbf0a-1d69-4bce-b13e-bfd6332ff402.jpg') no-repeat center center fixed;
+    background-size: cover; 
+    /* ARKA PLAN PARLAKLIĞI */
+    filter: brightness(0.7) grayscale(0.1); 
+    z-index: -2;
     pointer-events: none;
 }
-/* YENİ: İkinci bir katman ekleyerek daha da karartabiliriz veya renk tonu verebiliriz */
 body::after {
     content: "";
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.6); /* Genel koyuluk */
-    z-index: -1; /* Banner'ın önünde, içeriğin arkasında */
+    /* KARARTMA OPAKLIĞI */
+    background: rgba(0, 0, 0, 0.4);
+    z-index: -1;
     pointer-events: none;
 }
 
@@ -45,7 +48,7 @@ header {
     align-items: center;
     justify-content: center;
     position: relative;
-    background: linear-gradient(90deg, #0b1a33, #04142b); /* Koyu Lacivert */
+    background: linear-gradient(90deg, #0b1a33, #04142b);
     padding: 30px 20px;
     font-size: 26px;
     letter-spacing: 1px;
@@ -54,16 +57,17 @@ header {
     box-shadow: 0 0 25px rgba(0,0,0,0.8);
     z-index: 10;
 }
-/* LOGO BÜYÜTÜLDÜ VE KONUMU AYARLANDI */
+/* LOGO BAĞLANTISI VE DİĞER STİLLER KORUNDU */
 header .logo {
     position: absolute;
     left: 25px;
     top: 50%;
     transform: translateY(-50%);
-    width: 100px; /* Büyütüldü */
-    height: 100px; /* Büyütüldü */
+    width: 100px; 
+    height: 100px;
     background: url('https://mk.gov.tr/NewDesignAssets/images/milletkutuphanesi_logo_vertical.svg') no-repeat center/contain;
     animation: blink 1.5s infinite alternate;
+    cursor: pointer;
 }
 @keyframes blink {
     from { filter: brightness(1.5); }
@@ -75,7 +79,7 @@ header .logo {
     right: 25px;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(224,193,126,0.2); /* Altın tonu */
+    background: rgba(224,193,126,0.2);
     color: #E0C17E;
     border: 1px solid #D4AF37;
     padding: 8px 12px;
@@ -101,7 +105,7 @@ header .logo {
     z-index: 2;
 }
 .stat-item {
-    background: linear-gradient(145deg, rgba(224,193,126,0.1), rgba(224,193,126,0.05)); /* Altın tonlarından hafif transparan */
+    background: linear-gradient(145deg, rgba(224,193,126,0.1), rgba(224,193,126,0.05));
     border-radius: 16px;
     width: 280px;
     height: 180px;
@@ -109,9 +113,9 @@ header .logo {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 15px rgba(224,193,126, 0.3) inset; /* Altın iç parlama */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 15px rgba(224,193,126, 0.3) inset;
     transition: transform 0.3s, box-shadow 0.3s;
-    border: 2px solid #E0C17E; /* Altın border */
+    border: 2px solid #E0C17E;
     text-align: center;
     cursor: default;
 }
@@ -122,7 +126,7 @@ header .logo {
 }
 .stat-icon {
     font-size: 45px;
-    color: #D4AF37; /* Altın ikon */
+    color: #D4AF37;
     margin-bottom: 5px;
     animation: pulse 2s infinite ease-in-out;
     text-shadow: 0 0 10px rgba(224, 193, 126, 0.8);
@@ -145,11 +149,11 @@ header .logo {
     margin-left: 5px;
 }
 .stat-description {
-    color: #E0C17E; /* Altın açıklama metni */
+    color: #E0C17E;
     font-weight: 600;
 }
 
-/* DETAY KARTLARI TEMALARI - HER KARTA ÖZEL TON VE 3D ETKİSİ */
+/* DETAY KARTLARI TEMALARI - TÜMÜ SADE VE ALTIN ODAKLI */
 .detail-card-container {
     display: flex;
     flex-wrap: wrap;
@@ -171,19 +175,24 @@ header .logo {
     padding: 25px;
     transform-style: preserve-3d; /* 3D dönüşümler için */
     perspective: 1000px;
+    /* SADELİK VE ŞEFFAFLIK */
+    background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)); 
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+    border: 1px solid rgba(224,193,126, 0.5); /* Hafif Altın border */
 }
 .single-detail-card::before {
     content: '';
     position: absolute;
     inset: 0;
     border-radius: 16px;
-    background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)); /* Hafif cam efekti */
+    background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
     z-index: -1;
-    transform: translateZ(-1px); /* Hafif geriye itme */
+    transform: translateZ(-1px);
 }
 .single-detail-card:hover {
-    transform: translateY(-10px) rotateX(5deg);
-    box-shadow: 0 25px 50px rgba(0,0,0,0.7);
+    transform: translateY(-10px) rotateX(2deg);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.7), 0 0 15px #0bb4ff; /* Mavi glow korundu */
+    border-color: #0bb4ff;
 }
 .single-detail-card h3 {
     margin-top: 15px;
@@ -191,83 +200,79 @@ header .logo {
     text-align: center;
     font-weight: 700;
     line-height: 1.4;
-    text-shadow: 0 0 8px rgba(0,0,0,0.5);
+    color: #D4AF37; /* Altın başlık */
+    text-shadow: 0 0 8px rgba(224,193,126,0.5);
 }
 .single-detail-card i {
     font-size: 55px;
     margin-bottom: 10px;
-    text-shadow: 0 0 15px;
-}
-
-/* KOLEKSİYON TEMASI: Derin Mor & Altın */
-.single-detail-card:nth-child(1) {
-    background: linear-gradient(135deg, rgba(75, 0, 130, 0.7), rgba(40, 0, 70, 0.8)); /* Daha koyu ve zengin mor */
-    box-shadow: 0 15px 30px rgba(0,0,0,0.6), 0 0 20px rgba(159, 125, 205, 0.6) inset;
-    border: 2px solid #D4AF37; /* Altın çerçeve */
-}
-.single-detail-card:nth-child(1) h3 {
-    color: #E0C17E; /* Altın başlık */
-}
-.single-detail-card:nth-child(1) i {
-    color: #D4AF37; /* Altın ikon */
-    text-shadow: 0 0 15px rgba(224, 193, 126, 0.8);
-}
-
-/* ZİYARETÇİ 2025 TEMASI: Canlı Mavi & Turkuaz */
-.single-detail-card:nth-child(2) {
-    background: linear-gradient(135deg, rgba(11, 180, 255, 0.7), rgba(5, 90, 120, 0.8)); /* Canlı maviden koyuya */
-    box-shadow: 0 15px 30px rgba(0,0,0,0.6), 0 0 20px rgba(11, 180, 255, 0.6) inset;
-    border: 2px solid #00ffaa; /* Turkuaz çerçeve */
-}
-.single-detail-card:nth-child(2) h3 {
-    color: #00ffaa; /* Turkuaz başlık */
-}
-.single-detail-card:nth-child(2) i {
-    color: #0bb4ff; /* Mavi ikon */
+    color: #0bb4ff; 
     text-shadow: 0 0 15px rgba(11, 180, 255, 0.8);
 }
+/* TEMAYA ÖZEL İKON VE VURGU RENKLERİNİ KORU (Header ve Detay İçi) */
+.single-detail-card:nth-child(1) i { color: #D4AF37; } /* Koleksiyon -> Altın */
+.single-detail-card:nth-child(2) i { color: #0bb4ff; } /* Ziyaretçi -> Mavi */
+.single-detail-card:nth-child(3) i { color: #ff8800; } /* Yıllık Ziyaret -> Turuncu */
+/* YENİ 4. KART STİLİ (TUR HİZMETİ) - DİĞER KARTLARIN YAPISINA UYARLANDI */
+.single-detail-card:nth-child(4) {
+    /* Tek kart stili artık üstteki single-detail-card ile aynı olacak */
+    background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)); 
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+    border: 1px solid rgba(224,193,126, 0.5); 
+}
+.single-detail-card:nth-child(4):hover {
+    transform: translateY(-10px) rotateX(2deg);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.7), 0 0 15px #00ffff; /* Siyan Glow */
+    border-color: #00ffff;
+}
+.single-detail-card:nth-child(4) h3 { color: #D4AF37; } /* Altın Başlık */
+.single-detail-card:nth-child(4) i { color: #00ffff; text-shadow: 0 0 15px rgba(0, 255, 255, 0.8); } /* Siyan İkon */
 
-/* YILLIK ZİYARETÇİ TEMASI: Sıcak Turuncu & Fuşya */
-.single-detail-card:nth-child(3) {
-    background: linear-gradient(135deg, rgba(255, 136, 0, 0.7), rgba(200, 50, 0, 0.8)); /* Sıcak turuncudan koyu kırmızıya */
-    box-shadow: 0 15px 30px rgba(0,0,0,0.6), 0 0 20px rgba(255, 0, 85, 0.6) inset;
-    border: 2px solid #ff0055; /* Fuşya çerçeve */
-}
-.single-detail-card:nth-child(3) h3 {
-    color: #ff0055; /* Fuşya başlık */
-}
-.single-detail-card:nth-child(3) i {
-    color: #ff8800; /* Turuncu ikon */
-    text-shadow: 0 0 15px rgba(255, 136, 0, 0.8);
-}
 
-/* DETAY PENCERESİ STİLLERİ (Genel Olarak Korundu, küçük renk güncellemeleri) */
+/* DETAY PENCERESİ STİLLERİ (Korundu) */
 .details {
     display: none;
     background: rgba(0,0,0,0.95);
     position: fixed;
     inset: 0;
     z-index: 1000;
-    overflow: auto;
+    overflow-y: auto; 
     backdrop-filter: blur(12px);
     padding: 20px;
 }
 .details-content {
+    position: relative; 
     margin: 80px auto;
     width: 90%;
     max-width: 1100px;
     background: rgba(18,30,50,0.98);
     border-radius: 18px;
     padding: 40px;
-    box-shadow: 0 0 40px rgba(11,180,255,0.6); /* Genel detay penceresi için mavi gölge */
+    box-shadow: 0 0 40px rgba(11,180,255,0.6);
     animation: fadeInScale 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 @keyframes fadeInScale {
     from { opacity: 0; transform: scale(0.95); }
     to { opacity: 1; transform: scale(1); }
 }
+/* YENİ: KAPATMA ÇARPISI (X) STİLİ */
+.close-x {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 30px;
+    color: #E0C17E;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out, color 0.3s;
+    z-index: 1001;
+}
+.close-x:hover {
+    color: #ff0055;
+    transform: rotate(90deg) scale(1.1);
+}
+
 .details h2 {
-    color: #E0C17E; /* Ana başlıklar altın */
+    color: #E0C17E;
     font-size: 32px;
     border-bottom: 2px solid rgba(224,193,126,0.5);
     padding-bottom: 10px;
@@ -278,10 +283,10 @@ header .logo {
 .details h2 i {
     margin-right: 15px;
     font-size: 35px;
-    color: #0bb4ff; /* İkonlar mavi */
+    color: #0bb4ff;
 }
 .details h3 {
-    color: #0bb4ff; /* Alt başlıklar mavi */
+    color: #0bb4ff;
     margin-top: 40px;
     border-bottom: 1px solid rgba(11,180,255,0.3);
     padding-bottom: 10px;
@@ -290,7 +295,7 @@ header .logo {
 }
 .details h3 i {
     margin-right: 10px;
-    color: #E0C17E; /* Altın ikon */
+    color: #E0C17E;
 }
 
 /* TABLO VE STATİK İSTATİSTİK STİLLERİ */
@@ -312,7 +317,6 @@ header .logo {
     margin-top: 0;
     margin-bottom: 15px;
     font-size: 1.1em;
-    border-bottom: 1px dashed rgba(255,255,255,0.1);
     padding-bottom: 10px;
 }
 table {
@@ -372,8 +376,8 @@ table tbody tr:hover {
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     border: 1px solid #E0C17E55;
     text-align: center;
-    transition: transform 0.3s, border-color 0.3s;
-    cursor: pointer; /* Tıklanabilir hale geldi */
+    transition: all 0.3s cubic-bezier(0.39, 0.575, 0.565, 1);
+    cursor: pointer;
     position: relative;
 }
 .mini-stat-card:hover {
@@ -382,8 +386,6 @@ table tbody tr:hover {
     border-color: #00ffaa;
 }
 .mini-stat-card .icon-box {
-    font-size: 30px;
-    margin-bottom: 5px;
     color: #00ffaa;
     text-shadow: 0 0 10px rgba(0,255,170,0.5);
     transition: color 0.3s;
@@ -470,7 +472,7 @@ table tbody tr:hover {
     margin-top: 10px;
 }
 
-/* Gauge Grafikleri (Korundu) */
+/* Gauge Grafikleri Metin Düzeltmesi (KRİTİK DÜZELTME) */
 .gauge-container {
     display: flex;
     justify-content: space-around;
@@ -487,16 +489,31 @@ table tbody tr:hover {
     height: 250px;
     position: relative;
     text-align: center;
+    padding-top: 35px; /* Başlık için yeterli boşluk bırakıldı */
+}
+.mini-gauge h4 {
+    color: #E0C17E;
+    margin: 0;
+    font-size: 16px;
+    position: absolute;
+    top: 5px; /* Başlığı en üste taşıdık */
+    left: 0;
+    right: 0;
+    z-index: 5;
 }
 .mini-gauge .large-number {
     position: absolute;
-    top: 60%;
+    top: 55%; /* Yüzdeyi merkezin biraz üstüne taşıdık */
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 20px;
     font-weight: 700;
     color: #00ffaa;
     text-shadow: 0 0 5px rgba(0,255,170,0.5);
+    z-index: 5;
+}
+.mini-gauge canvas {
+    /* Başlığın yerini açtığımız için canvas'ı aşağı itmeye gerek kalmadı */
 }
 
 /* Chart Container */
@@ -530,13 +547,40 @@ table tbody tr:hover {
     box-shadow: 0 8px 20px rgba(0,0,0,0.6);
     filter: brightness(1.1);
 }
+
+/* YENİ: Tur Hizmeti Detay Modalı'ndaki statik metin ve tablo stili (Korundu) */
+#detail-turhizmeti .tur-aciklama {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: #00ffff;
+    margin-bottom: 25px;
+    text-align: center;
+}
+#detail-turhizmeti table {
+    border: 1px solid #00ffff33;
+    background: rgba(0, 255, 255, 0.05);
+}
+#detail-turhizmeti table td {
+    color: #ccc;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+}
+#detail-turhizmeti table thead td {
+    color: #00ffff;
+    font-weight: 700;
+    background: rgba(0, 255, 255, 0.15);
+}
+#detail-turhizmeti .table-container {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
 /* Responsive ve diğer stiller korunmuştur */
 </style>
 </head>
 <body data-lang="tr">
 
 <header>
-    <div class="logo"></div>
+    <div class="logo" onclick="window.open('https://mk.gov.tr/', '_blank')"></div>
     <span id="headerTitle" data-tr="Sayılarla Millet Kütüphanesi" data-en="Numbers with Nation's Library">Sayılarla Millet Kütüphanesi</span>
     <button class="lang-switch" onclick="toggleLanguage()" id="langSwitchBtn">EN</button>
 </header>
@@ -571,13 +615,18 @@ table tbody tr:hover {
     </div>
     <div class="single-detail-card yillik" onclick="showDetails('yillikziyaret')">
         <i class="fas fa-chart-area"></i>
-        <h3 data-tr="2020-2024 YILLIK ZİYARETÇİ SAYILARI" data-en="2020-2024 ANNUAL VISITOR COUNTS">2020-2024 YILLIK ZİYARETÇİ SAYILARI</h3>
+        <h3 data-tr="2020-2025 YILLIK ZİYARETÇİ SAYILARI" data-en="2020-2025 ANNUAL VISITOR COUNTS">2020-2025 YILLIK ZİYARETÇİ SAYILARI</h3>
+    </div>
+    <div class="single-detail-card" onclick="showDetails('turhizmeti')">
+        <i class="fas fa-person-walking"></i>
+        <h3 data-tr="2025 TUR HİZMETİ SAYILARI" data-en="2025 TOUR SERVICE COUNTS">2025 TUR HİZMETİ SAYILARI</h3>
     </div>
 </div>
 
 
 <div class="details" id="detail-fizikiolcek">
     <div class="details-content">
+        <i class="fas fa-times close-x" onclick="closeDetails('fizikiolcek')"></i>
         <h2 data-tr="Fiziksel Ölçek, Altyapı ve Koleksiyon Zenginliği" data-en="Physical Scale, Infrastructure and Collection Richness"><i class="fas fa-landmark"></i> Fiziksel Ölçek, Altyapı ve Koleksiyon Zenginliği</h2>
 
         <div class="giant-stat" data-tr="TOPLAM KOLEKSİYON ve YAYIN SAYISI (Kitap, Belge, Harita vb.)" data-en="TOTAL COLLECTION AND PUBLICATION COUNT (Book, Document, Map, etc.)">
@@ -640,7 +689,7 @@ table tbody tr:hover {
             <div class="mini-gauge">
                 <h4 data-tr="Basılı Kaynak Çeşitliliği" data-en="Printed Resource Diversity">Basılı Kaynak Çeşitliliği</h4>
                 <canvas id="gaugeKaynak"></canvas>
-                <div class="large-number"><span id="kaynakYuzde">0</span>%</div>
+                <div class="large-number"><span id="kaynakYuzde">0</span>M</div>
             </div>
             <div class="mini-gauge">
                 <h4 data-tr="Süreli Yayın Oranı" data-en="Periodical Ratio">Süreli Yayın Oranı</h4>
@@ -648,29 +697,78 @@ table tbody tr:hover {
                 <div class="large-number"><span id="yayinYuzde">0</span>%</div>
             </div>
         </div>
-        <p style="margin-top:20px; font-style: italic; color:#ccc;" data-tr="Yukarıdaki göstergeler, ana basılı koleksiyonun toplam kayıtlı fiziksel kaynaklar içindeki oransal dağılımını gösterir. (Not: Toplam kayıtlı fiziksel kaynak adedi 5.048.493'tür.)" data-en="The indicators above show the proportional distribution of the main printed collection within the total registered physical resources. (Note: Total registered physical resource count is 5,048,493).">Yukarıdaki göstergeler, ana basılı koleksiyonun toplam kayıtlı fiziksel kaynaklar içindeki oransal dağılımını gösterir. (Not: Toplam kayıtlı fiziksel kaynak adedi 5.048.493'tür.)</p>
+        <p style="margin-top:20px; font-style: italic; color:#ccc;" data-tr="Yukarıdaki göstergeler, ana basılı koleksiyonun toplam kayıtlı fiziksel kaynaklar içindeki oransal dağılımını gösterir. (Not: Toplam kayıtlı fiziksel fiziksel kaynak adedi 5.048.493'tür.)" data-en="The indicators above show the proportional distribution of the main printed collection within the total registered physical resources. (Note: Total registered physical resource count is 5,048,493).">Yukarıdaki göstergeler, ana basılı koleksiyonun toplam kayıtlı fiziksel kaynaklar içindeki oransal dağılımını gösterir. (Not: Toplam kayıtlı fiziksel kaynak adedi 5.048.493'tür.)</p>
+        
+        <h3 style="color:#E0C17E;"><i class="fas fa-chart-area"></i><span data-tr="Dijital Kaynakların Detaylı Dağılımı" data-en="Detailed Distribution of Digital Resources">Dijital Kaynakların Detaylı Dağılımı</span></h3>
+
+        <p style="color:#ccc;" data-tr="73 Ana veritabanına ait 233 adet veritabanı içeriğinde; 1.218.475 e-kitap, 7.901.681 elektronik tez ve 112.153 e-dergiye ait 300 milyondan fazla makale, rapor, vb. bulunmaktadır." data-en="73 main databases contain 233 databases, including 1.218.475 e-books, 7.901.681 electronic theses, and over 300 million articles, reports, etc., related to 112.153 e-journals.">73 Ana veritabanına ait 233 adet veritabanı içeriğinde; 1.218.475 e-kitap, 7.901.681 elektronik tez ve 112.153 e-dergiye ait 300 milyondan fazla makale, rapor, vb. bulunmaktadır.</p>
+        
+        <div class="chart-container" style="height: 450px;">
+             <canvas id="digitalChart"></canvas>
+        </div>
         
         <button class="close-btn" onclick="closeDetails('fizikiolcek')" data-tr="Kapat" data-en="Close">Kapat</button>
     </div>
 </div>
 
-<div class="info-popup" id="infoPopup">
-    <h4 id="popupTitle"></h4>
-    <div class="detail-content">
-        <strong id="popupValue"></strong>
-        <p id="popupDescription"></p>
-        <div class="chart-container" style="height: 200px; display: none;" id="popupChartContainer">
-             <canvas id="popupChart"></canvas>
+<div class="details" id="detail-turhizmeti">
+    <div class="details-content">
+        <i class="fas fa-times close-x" onclick="closeDetails('turhizmeti')"></i>
+        <h2 data-tr="2025 Tur Hizmeti Sayıları (Aylık)" data-en="2025 Tour Service Counts (Monthly)"><i class="fas fa-person-walking"></i> 2025 Tur Hizmeti Sayıları (Aylık)</h2>
+        
+        <div class="tur-aciklama" data-tr="1 Ocak 2025-30 Eylül 2025 tarihleri arasında toplam 71.298 kişiye tur hizmeti verilmiştir." data-en="A total of 71,298 people were provided with tour services between January 1, 2025, and September 30, 2025.">
+            1 Ocak 2025-30 Eylül 2025 tarihleri arasında toplam **71.298** kişiye tur hizmeti verilmiştir.
         </div>
+        
+        <h3 style="color:#00ffff;"><i class="fas fa-chart-bar"></i><span data-tr="Aylık Tur Hizmeti Dağılımı" data-en="Monthly Tour Service Distribution">Aylık Tur Hizmeti Dağılımı</span></h3>
+        <div class="chart-container"><canvas id="turHizmetiChart"></canvas></div>
+
+        <h3 style="color:#00ffff;"><i class="fas fa-table"></i><span data-tr="Aylık Sayı Detayı" data-en="Monthly Count Detail">Aylık Sayı Detayı</span></h3>
+        
+        <div class="table-grid">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr><td data-tr="Aylar" data-en="Months">Aylar</td><td data-tr="Ziyaretçi" data-en="Visitor">Ziyaretçi</td></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td data-tr="Ocak" data-en="January">Ocak</td><td>4.505</td></tr>
+                        <tr><td data-tr="Şubat" data-en="February">Şubat</td><td>7.136</td></tr>
+                        <tr><td data-tr="Mart" data-en="March">Mart</td><td>10.025</td></tr>
+                        <tr><td data-tr="Nisan" data-en="April">Nisan</td><td>12.359</td></tr>
+                        <tr><td data-tr="Mayıs" data-en="May">Mayıs</td><td>27.371</td></tr>
+                        <tr><td data-tr="Haziran" data-en="June">Haziran</td><td>4.452</td></tr>
+                        <tr><td data-tr="Temmuz" data-en="July">Temmuz</td><td>1.884</td></tr>
+                        <tr><td data-tr="Ağustos" data-en="August">Ağustos</td><td>1.296</td></tr>
+                        <tr><td data-tr="Eylül" data-en="September">Eylül</td><td>2.270</td></tr>
+                        <tr class="total-row">
+                            <td data-tr="Toplam" data-en="Total">Toplam</td>
+                            <td>71.298</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <button class="close-btn" onclick="closeDetails('turhizmeti')" data-tr="Kapat" data-en="Close">Kapat</button>
     </div>
-    <button class="close-btn" onclick="closeInfoPopup()" data-tr="Kapat" data-en="Close">Kapat</button>
 </div>
+
 <div class="details" id="detail-ziyaretci">
     <div class="details-content">
-        <h2 data-tr="2025 Yılı Ziyaretçi İstatistikleri (Günlük & Aylık)" data-en="2025 Visitor Statistics (Daily & Monthly)"><i class="fas fa-chart-line"></i> 2025 Yılı Ziyaretçi İstatistikleri (Günlük & Aylık)</h2>
+        <i class="fas fa-times close-x" onclick="closeDetails('ziyaretci')"></i>
+        <h2 data-tr="2025 Yılı Ziyaretçi İstatistikleri (Aylık)" data-en="2025 Visitor Statistics (Monthly)"><i class="fas fa-chart-line"></i> 2025 Yılı Ziyaretçi İstatistikleri (Aylık)</h2>
         
         <h3 style="color:#00ffaa;"><i class="fas fa-calendar-alt"></i><span data-tr="Aylık Toplam Ziyaretçi Sayıları" data-en="Monthly Total Visitor Counts">Aylık Toplam Ziyaretçi Sayıları</span></h3>
         <div class="monthly-totals">
+            <div class="monthly-total-item">
+                <strong id="totalOcak">0</strong>
+                <span data-tr="Ocak 2025" data-en="January 2025">Ocak 2025</span>
+            </div>
+            <div class="monthly-total-item">
+                <strong id="totalSubat">0</strong>
+                <span data-tr="Şubat 2025" data-en="February 2025">Şubat 2025</span>
+            </div>
             <div class="monthly-total-item">
                 <strong id="totalMart">0</strong>
                 <span data-tr="Mart 2025" data-en="March 2025">Mart 2025</span>
@@ -683,21 +781,25 @@ table tbody tr:hover {
                 <strong id="totalMayis">0</strong>
                 <span data-tr="Mayıs 2025" data-en="May 2025">Mayıs 2025</span>
             </div>
+            <div class="monthly-total-item">
+                <strong id="totalHaziran">0</strong>
+                <span data-tr="Haziran 2025" data-en="June 2025">Haziran 2025</span>
+            </div>
+            <div class="monthly-total-item">
+                <strong id="totalTemmuz">0</strong>
+                <span data-tr="Temmuz 2025" data-en="July 2025">Temmuz 2025</span>
+            </div>
+            <div class="monthly-total-item">
+                <strong id="totalAgustos">0</strong>
+                <span data-tr="Ağustos 2025" data-en="August 2025">Ağustos 2025</span>
+            </div>
+            <div class="monthly-total-item">
+                <strong id="totalEylul">0</strong>
+                <span data-tr="Eylül 2025" data-en="September 2025">Eylül 2025</span>
+            </div>
         </div>
         <div class="chart-container" style="margin-top: 40px;"><canvas id="aylikToplamChart"></canvas></div>
-        <p style="margin-top:20px; font-style: italic; color:#ccc;" data-tr="Mart, Nisan ve Mayıs 2025 aylarına ait toplam ziyaretçi sayıları." data-en="Total visitor counts for March, April, and May 2025.">Mart, Nisan ve Mayıs 2025 aylarına ait toplam ziyaretçi sayıları.</p>
-
-        <h3 style="color:#00ffaa;"><i class="fas fa-calendar-day"></i><span data-tr="Günlük Ziyaretçi İstatistikleri (Mart 2025)" data-en="Daily Visitor Statistics (March 2025)">Günlük Ziyaretçi İstatistikleri (Mart 2025)</span></h3>
-        <div class="chart-container"><canvas id="martZiyaretciChart"></canvas></div>
-        <p style="margin-top:20px; font-style: italic; color:#ccc;" data-tr="Mart 2025'teki günlük ziyaretçi istatistikleri (Ziyaretçi: Kütüphane genel ziyareti, Ziyaretçi (Turnike): Turnike geçişi yapan kişi sayısı)." data-en="Daily visitor statistics for March 2025 (Visitor: General library visit, Turnstile Visitor: Number of people passing through turnstile).">Mart 2025'teki günlük ziyaretçi istatistikleri (Ziyaretçi: Kütüphane genel ziyareti, Ziyaretçi (Turnike): Turnike geçişi yapan kişi sayısı).</p>
-
-        <h3 style="color:#00ffaa;"><i class="fas fa-calendar-day"></i><span data-tr="Günlük Ziyaretçi İstatistikleri (Nisan 2025)" data-en="Daily Visitor Statistics (April 2025)">Günlük Ziyaretçi İstatistikleri (Nisan 2025)</span></h3>
-        <div class="chart-container"><canvas id="nisanZiyaretciChart"></canvas></div>
-        <p style="margin-top:20px; font-style: italic; color:#ccc;" data-tr="Nisan 2025'teki günlük ziyaretçi istatistikleri (Ziyaretçi: Kütüphane genel ziyareti, Ziyaretçi (Turnike): Turnike geçişi yapan kişi sayısı)." data-en="Daily visitor statistics for April 2025 (Visitor: General library visit, Turnstile Visitor: Number of people passing through turnstile).">Nisan 2025'teki günlük ziyaretçi istatistikleri (Ziyaretçi: Kütüphane genel ziyareti, Ziyaretçi (Turnike): Turnike geçişi yapan kişi sayısı).</p>
-        
-        <h3 style="color:#00ffaa;"><i class="fas fa-calendar-day"></i><span data-tr="Günlük Ziyaretçi İstatistikleri (Mayıs 2025)" data-en="Daily Visitor Statistics (May 2025)">Günlük Ziyaretçi İstatistikleri (Mayıs 2025)</span></h3>
-        <div class="chart-container"><canvas id="mayisZiyaretciChart"></canvas></div>
-        <p style="margin-top:20px; font-style: italic; color:#ccc;" data-tr="Mayıs 2025'teki günlük ziyaretçi istatistikleri (Ziyaretçi: Kütüphane genel ziyareti, Ziyaretçi (Turnike): Turnike geçişi yapan kişi sayısı)." data-en="Daily visitor statistics for May 2025 (Visitor: General library visit, Turnstile Visitor: Number of people passing through turnstile).">Mayıs 2025'teki günlük ziyaretçi istatistikleri (Ziyaretçi: Kütüphane genel ziyareti, Ziyaretçi (Turnike): Turnike geçişi yapan kişi sayısı).</p>
+        <p style="margin-top:20px; font-style: italic; color:#ccc;" data-tr="Ocak'tan Eylül 2025'e ait toplam ziyaretçi sayıları." data-en="Total visitor counts from January to September 2025.">Ocak'tan Eylül 2025'e ait toplam ziyaretçi sayıları.</p>
 
         <button class="close-btn" onclick="closeDetails('ziyaretci')" data-tr="Kapat" data-en="Close">Kapat</button>
     </div>
@@ -705,11 +807,12 @@ table tbody tr:hover {
 
 <div class="details" id="detail-yillikziyaret">
     <div class="details-content">
-        <h2 data-tr="2020-2024 Yıllık Ziyaretçi Sayıları ve Eğilimi" data-en="2020-2024 Annual Visitor Counts and Trend"><i class="fas fa-chart-area"></i> 2020-2024 Yıllık Ziyaretçi Sayıları ve Eğilimi</h2>
+        <i class="fas fa-times close-x" onclick="closeDetails('yillikziyaret')"></i>
+        <h2 data-tr="2020-2025 Yıllık Ziyaretçi Sayıları ve Eğilimi" data-en="2020-2025 Annual Visitor Counts and Trend"><i class="fas fa-chart-area"></i> 2020-2025 Yıllık Ziyaretçi Sayıları ve Eğilimi</h2>
 
-        <h3 style="color:#ff0055;"><i class="fas fa-calendar-days"></i><span data-tr="Yıllık Ziyaret Sayısı Trendi (2020-2024)" data-en="Annual Visit Count Trend (2020-2024)">Yıllık Ziyaret Sayısı Trendi (2020-2024)</span></h3>
+        <h3 style="color:#ff0055;"><i class="fas fa-calendar-days"></i><span data-tr="Yıllık Ziyaret Sayısı Trendi (2020-2025)" data-en="Annual Visit Count Trend (2020-2025)">Yıllık Ziyaret Sayısı Trendi (2020-2025)</span></h3>
         <div class="chart-container"><canvas id="yillikTrendChart"></canvas></div>
-        <p style="margin-top:20px; font-style: italic; color:#ccc;" data-tr="2020'den 2024'e yıllık ziyaretçi sayısındaki değişim trendi. COVID-19 etkileri nedeniyle 2020-2021 yılları düşük kalmıştır." data-en="Annual visitor count trend from 2020 to 2024. 2020-2021 numbers are low due to COVID-19 effects.">2020'den 2024'e yıllık ziyaretçi sayısındaki değişim trendi. COVID-19 etkileri nedeniyle 2020-2021 yılları düşük kalmıştır.</p>
+        <p style="margin-top:20px; font-style: italic; color:#ccc;" data-tr="2020'den 2025'e (Eylül dahil) yıllık ziyaretçi sayısındaki değişim trendi. COVID-19 etkileri nedeniyle 2020-2021 yılları düşük kalmıştır." data-en="Annual visitor count trend from 2020 to 2025 (including September). 2020-2021 numbers are low due to COVID-19 effects.">2020'den 2025'e (Eylül dahil) yıllık ziyaretçi sayısındaki değişim trendi. COVID-19 etkileri nedeniyle 2020-2021 yılları düşük kalmıştır.</p>
 
         <h3 style="color:#ff0055;"><i class="fas fa-table"></i><span data-tr="Yıllara Göre Ziyaret Sayısı Detayı" data-en="Visit Count Detail by Year">Yıllara Göre Ziyaret Sayısı Detayı</span></h3>
         
@@ -725,9 +828,10 @@ table tbody tr:hover {
                         <tr><td>2022</td><td>1.728.308</td></tr>
                         <tr><td>2023</td><td>2.042.344</td></tr>
                         <tr><td>2024</td><td>1.900.005</td></tr>
+                        <tr><td data-tr="2025 (Eylül)" data-en="2025 (September)">2025 (Eylül)</td><td>1.462.899</td></tr>
                         <tr class="total-row">
-                            <td data-tr="Genel Toplam (2020-2024)" data-en="Grand Total (2020-2024)">Genel Toplam (2020-2024)</td>
-                            <td>6.659.480</td>
+                            <td data-tr="Genel Toplam (2020-2025)" data-en="Grand Total (2020-2025)">Genel Toplam (2020-2025)</td>
+                            <td>8.122.379</td>
                         </tr>
                     </tbody>
                 </table>
@@ -743,6 +847,7 @@ table tbody tr:hover {
 
 
 <div class="info-popup" id="infoPopup">
+    <i class="fas fa-times close-x" onclick="closeInfoPopup()"></i>
     <h4 id="popupTitle"></h4>
     <div class="detail-content">
         <strong id="popupValue"></strong>
@@ -755,7 +860,6 @@ table tbody tr:hover {
 </div>
 
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 // --- DİL YÖNETİMİ ---
 const translations = {
@@ -774,22 +878,32 @@ const translations = {
         fizikiAlan: "Kullanım Alanı (m²)",
         fizikiKitap: "Basılı Kitap Oranı",
         fizikiKaynak: "Toplam Kaynak", 
-        fizikiYayin: "Süreli Yayın Oranı",
+        fizikiYayin: "Periyodik Yayın Oranı",
 
         // Ziyaretçi Kartı
         ziyaretci: "2025 YILI ZİYARETÇİ İSTATİSTİKLERİ",
         dailyVisitor: "Ziyaretçi (Kütüphane Genel)",
         dailyTurnstile: "Ziyaretçi (Turnike)",
+        monthOcak: "Ocak", 
+        monthSubat: "Şubat",
         monthMart: "Mart",
         monthNisan: "Nisan",
         monthMayis: "Mayıs",
+        monthHaziran: "Haziran",
+        monthTemmuz: "Temmuz",
+        monthAgustos: "Ağustos",
+        monthEylul: "Eylül",
         visitorCount: "Ziyaretçi Sayısı",
         
         // Yıllık Ziyaretçi Kartı
-        yillikziyaret: "2020-2024 YILLIK ZİYARETÇİ SAYILARI",
+        yillikziyaret: "2020-2025 YILLIK ZİYARETÇİ SAYILARI",
         yillikTrend: "Yıllık Ziyaret Sayısı",
         yillikOran: "Yıllık Oran",
 
+        // Tur Hizmeti Kartı
+        turhizmeti: "2025 TUR HİZMETİ SAYILARI",
+        turHizmetiToplam: "Toplam Tur Hizmeti",
+        
         // Popup Detayları (YENİ)
         popupArea: "Kütüphane Toplam Alanı",
         popupCapacity: "Anlık Oturma Kapasitesi",
@@ -828,18 +942,28 @@ const translations = {
         fizikiYayin: "Periodical Ratio",
 
         // Visitor Card
-        ziyaretci: "2025 VISITOR STATISTICS",
+        ziyaretci: "2025 YILI ZİYARETÇİ İSTATİSTİKLERİ",
         dailyVisitor: "Visitor (General Library)",
         dailyTurnstile: "Visitor (Turnstile)",
+        monthOcak: "January", 
+        monthSubat: "February",
         monthMart: "March",
         monthNisan: "April",
         monthMayis: "May",
+        monthHaziran: "June",
+        monthTemmuz: "July",
+        monthAgustos: "August",
+        monthEylul: "September",
         visitorCount: "Visitor Count",
         
         // Annual Visitor Card
-        yillikziyaret: "2020-2024 ANNUAL VISITOR COUNTS",
+        yillikziyaret: "2020-2025 ANNUAL VISITOR COUNTS",
         yillikTrend: "Annual Visit Count",
         yillikOran: "Annual Ratio",
+
+        // Tur Hizmeti Kartı
+        turhizmeti: "2025 TOUR SERVICE COUNTS",
+        turHizmetiToplam: "Total Tour Service",
         
         // Popup Detayları (YENİ)
         popupArea: "Total Library Area",
@@ -864,25 +988,25 @@ const translations = {
 
 let currentLang = document.body.getAttribute('data-lang');
 
-// YILLIK ZİYARETÇİ DATASI
+// YILLIK ZİYARETÇİ DATASI (GÜNCELLENDİ)
 const yillikData = {
-    labels: ['2020', '2021', '2022', '2023', '2024'],
-    visits: [315706, 673117, 1728308, 2042344, 1900005],
-    total: 6659480
+    labels: ['2020', '2021', '2022', '2023', '2024', '2025 (Eylül)'],
+    visits: [315706, 673117, 1728308, 2042344, 1900005, 1462899], 
+    total: 8122379 
 };
 
-// FİZİKİ ÖLÇEK DATA
+// FİZİKİ ÖLÇEK DATA (VERİLER KORUNDU)
 const fizikiData = {
-    toplamKayitliKaynak: 5048493,
-    basiliKitap: 2168302,
-    basiliDergiBaslik: 25017,
-    sureliYayinAdet: 2948290,
-    alan: 125000,
-    kapasite: 5000,
-    digitalArchiveTotal: 141718843,
-    eKitap: 1218475,
-    eTez: 7901681,
-    eDergiMakale: "300 Milyon+" // String bırakıldı
+    toplamKayitliKaynak: 5048493, 
+    basiliKitap: 2168302, 
+    basiliDergiBaslik: 25017, 
+    sureliYayinAdet: 2948290, 
+    alan: 125000, 
+    kapasite: 5000, 
+    digitalArchiveTotal: 141718843, 
+    eKitap: 1218475, 
+    eTez: 7901681, 
+    eDergiMakale: "300 Milyon+" 
 };
 
 // Oranlar: Basılı Kitap / Toplam Kayıtlı Kaynak, Süreli Yayın Adedi / Toplam Kayıtlı Kaynak
@@ -891,30 +1015,61 @@ const fizikiOranlar = {
     yayin: (fizikiData.sureliYayinAdet / fizikiData.toplamKayitliKaynak) * 100,
 };
 
-
-// 2025 AYLIK ZİYARETÇİ DATASI (Korundu)
+// 2025 AYLIK ZİYARETÇİ DATASI (GÜNCELLENDİ)
 const ziyaretciData = {
-    mart: {
+    ocak: 203209, 
+    subat: 127223, 
+    mart: 215910, 
+    nisan: 180723, 
+    mayis: 204634, 
+    haziran: 126230, 
+    temmuz: 129743, 
+    agustos: 144857, 
+    eylul: 130370, 
+    
+    // Günlük detay verisi (Mart-Mayıs) - KORUNDU
+    martGunluk: {
         labels: Array.from({length: 31}, (_, i) => `${i+1}.03.2025`),
-        ziyaret: [11848, 12516, 4309, 6597, 5589, 6798, 7370, 16517, 13408, 4730, 6153, 6631, 7479, 7604, 13420, 13270, 4844, 6480, 5475, 5350, 6040, 9707, 9644, 4567, 7167, 7396, 6024, 6329, 2125, 0, 0],
-        turnike: [9518, 12309, 3728, 5666, 4779, 5482, 6009, 13476, 11495, 4076, 5204, 5564, 5991, 6153, 10881, 11065, 4122, 5248, 4736, 4550, 4968, 8036, 8161, 3792, 5658, 6283, 4866, 4948, 1851, 0, 0]
+        ziyaret: [11848, 12516, 4309, 6597, 5589, 6798, 7370, 16517, 13408, 4730, 6153, 6631, 7479, 7604, 13420, 13270, 4844, 6480, 5475, 5350, 6040, 9707, 9644, 4567, 7167, 7396, 6024, 6329, 2125, 0, 0], 
+        turnike: [9518, 12309, 3728, 5666, 4779, 5482, 6009, 13476, 11495, 4076, 5204, 5564, 5991, 6153, 10881, 11065, 4122, 5248, 4736, 4550, 4968, 8036, 8161, 3792, 5658, 6283, 4866, 4948, 1851, 0, 0] 
     },
-    nisan: {
+    nisanGunluk: {
         labels: Array.from({length: 30}, (_, i) => `${i+1}.04.2025`),
-        ziyaret: [0, 0, 8801, 9252, 7748, 6946, 4169, 5282, 5881, 6433, 4338, 7014, 6695, 4285, 5635, 5779, 5474, 5583, 7460, 6982, 4107, 5475, 9638, 4902, 5645, 8189, 6250, 3781, 5046, 5405],
-        turnike: [0, 0, 7314, 7215, 6261, 5556, 3716, 4623, 5052, 5529, 3516, 5962, 5561, 3785, 4896, 4903, 4672, 4406, 6155, 5545, 3536, 4646, 7859, 4274, 4571, 6746, 5141, 3240, 4334, 4508]
+        ziyaret: [0, 0, 8801, 9252, 7748, 6946, 4169, 5282, 5881, 6433, 4338, 7014, 6695, 4285, 5635, 5779, 5474, 5583, 7460, 6982, 4107, 5475, 9638, 4902, 5645, 8189, 6250, 3781, 5046, 5405], 
+        turnike: [0, 0, 7314, 7215, 6261, 5556, 3716, 4623, 5052, 5529, 3516, 5962, 5561, 3785, 4896, 4903, 4672, 4406, 6155, 5545, 3536, 4646, 7859, 4274, 4571, 6746, 5141, 3240, 4334, 4508] 
     },
-    mayis: {
+    mayisGunluk: {
         labels: Array.from({length: 31}, (_, i) => `${i+1}.05.2025`),
-        ziyaret: [7548, 6578, 8835, 6621, 4221, 5228, 5443, 7921, 5901, 8560, 11005, 5453, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        turnike: [6290, 5272, 7383, 5602, 3673, 4397, 4677, 6378, 4723, 7058, 5329, 3950, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        ziyaret: [7548, 6578, 8835, 6621, 4221, 5228, 5443, 7921, 5901, 8560, 11005, 5453, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+        turnike: [6290, 5272, 7383, 5602, 3673, 4397, 4677, 6378, 4723, 7058, 5329, 3950, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] 
     }
 };
 
 const totals = {
-    mart: ziyaretciData.mart.ziyaret.reduce((a, b) => a + b, 0),
-    nisan: ziyaretciData.nisan.ziyaret.reduce((a, b) => a + b, 0),
-    mayis: ziyaretciData.mayis.ziyaret.reduce((a, b) => a + b, 0)
+    ocak: ziyaretciData.ocak, 
+    subat: ziyaretciData.subat, 
+    mart: ziyaretciData.mart, 
+    nisan: ziyaretciData.nisan, 
+    mayis: ziyaretciData.mayis,
+    haziran: ziyaretciData.haziran,
+    temmuz: ziyaretciData.temmuz,
+    agustos: ziyaretciData.agustos,
+    eylul: ziyaretciData.eylul,
+    genelToplam: 1462899
+};
+
+// YENİ TUR HİZMETİ DATASI
+const turHizmetiData = {
+    ocak: 4505,
+    subat: 7136,
+    mart: 10025,
+    nisan: 12359,
+    mayis: 27371,
+    haziran: 4452,
+    temmuz: 1884,
+    agustos: 1296,
+    eylul: 2270,
+    toplam: 71298
 };
 
 function updateContent(lang) {
@@ -954,27 +1109,36 @@ function updateContent(lang) {
         descEl.textContent = lang === 'tr' ? trText : enText;
     });
 
-    // Aylık toplamları güncelle
+    // Aylık toplamları güncelle (YENİ AYLAR DAHİL)
+    document.getElementById('totalOcak').textContent = totals.ocak.toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US');
+    document.getElementById('totalSubat').textContent = totals.subat.toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US');
     document.getElementById('totalMart').textContent = totals.mart.toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US');
     document.getElementById('totalNisan').textContent = totals.nisan.toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US');
     document.getElementById('totalMayis').textContent = totals.mayis.toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US');
+    document.getElementById('totalHaziran').textContent = totals.haziran.toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US');
+    document.getElementById('totalTemmuz').textContent = totals.temmuz.toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US');
+    document.getElementById('totalAgustos').textContent = totals.agustos.toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US');
+    document.getElementById('totalEylul').textContent = totals.eylul.toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US');
     
     // GRAFİK VE DİNAMİK YÜZDE GÜNCELLEMELERİ
     if (document.getElementById('detail-fizikiolcek').style.display === 'block') {
         drawGaugeCharts(currentLang); 
-        // Detay sayaçlarını güncelle
-        document.getElementById('statAreaDetay').textContent = fizikiData.alan.toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US');
-        document.getElementById('statCapacityDetay').textContent = fizikiData.kapasite.toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US');
-        document.getElementById('statBooksDetay').textContent = fizikiData.basiliKitap.toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US');
-        document.getElementById('statResourcesDetay').textContent = fizikiData.toplamKayitliKaynak.toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US');
+        // Detay sayaçlarını başlat (AnimateValue ile)
+        animateValue(document.getElementById("statAreaDetay"), 0, fizikiData.alan, 2500);
+        animateValue(document.getElementById("statCapacityDetay"), 0, fizikiData.kapasite, 2000);
+        animateValue(document.getElementById("statBooksDetay"), 0, fizikiData.basiliKitap, 3000);
+        animateValue(document.getElementById("statResourcesDetay"), 0, fizikiData.toplamKayitliKaynak, 3500);
+        drawDigitalChart(currentLang);
     }
     if (document.getElementById('detail-ziyaretci').style.display === 'block') {
-        drawZiyaretciCharts(currentLang);
         drawAylikToplamChart(currentLang);
     }
     if (document.getElementById('detail-yillikziyaret').style.display === 'block') {
         drawYillikTrendChart(currentLang);
         drawYillikOranChart(currentLang);
+    }
+    if (document.getElementById('detail-turhizmeti').style.display === 'block') {
+        drawTurHizmetiChart(currentLang);
     }
     // Popup kapatma butonu metnini güncelle
     document.querySelector('#infoPopup .close-btn').textContent = translations[lang].close;
@@ -984,7 +1148,7 @@ function toggleLanguage() {
     currentLang = currentLang === 'tr' ? 'en' : 'tr';
     document.body.setAttribute('data-lang', currentLang);
     updateContent(currentLang);
-    animateStats();
+    // animateStats(); // Sadece DOMContentLoaded'da çalışacak
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -1002,67 +1166,96 @@ function showDetails(id) {
         animateValue(document.getElementById("statCapacityDetay"), 0, fizikiData.kapasite, 2000);
         animateValue(document.getElementById("statBooksDetay"), 0, fizikiData.basiliKitap, 3000);
         animateValue(document.getElementById("statResourcesDetay"), 0, fizikiData.toplamKayitliKaynak, 3500);
+        drawDigitalChart(currentLang);
     } else if (id === 'ziyaretci') {
-        drawZiyaretciCharts(currentLang);
         drawAylikToplamChart(currentLang);
     } else if (id === 'yillikziyaret') {
         drawYillikTrendChart(currentLang);
         drawYillikOranChart(currentLang);
+    } else if (id === 'turhizmeti') {
+        drawTurHizmetiChart(currentLang);
     }
 }
 function closeDetails(id) {
     document.getElementById("detail-" + id).style.display = "none";
 }
 
-// YENİ FONKSİYON: Tıklanabilir İkon Detay Pop-up'ı
+// YENİ FONKSİYON: Tıklanabilir İkon Detay Pop-up'ı (Korundu)
 function showInfoPopup(type) {
     const lang = currentLang;
     const popup = document.getElementById('infoPopup');
+    const popupValueEl = document.getElementById('popupValue');
     const chartContainer = document.getElementById('popupChartContainer');
     chartContainer.style.display = 'none'; // Grafiği varsayılan olarak gizle
 
-    let title, value, description, chartData, chartOptions;
+    let title, rawValue, value, description, chartData, chartOptions;
 
     // Veri toplama ve popup içeriğini belirleme
     switch (type) {
         case 'area':
             title = translations[lang].popupArea;
-            value = fizikiData.alan.toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US') + ' m²';
+            rawValue = fizikiData.alan;
+            value = rawValue.toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US') + ' m²';
             description = translations[lang].descArea;
             break;
         case 'capacity':
             title = translations[lang].popupCapacity;
-            value = fizikiData.kapasite.toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US') + (lang === 'tr' ? ' Kişilik' : ' People');
+            rawValue = fizikiData.kapasite;
+            value = rawValue.toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US') + (lang === 'tr' ? ' Kişilik' : ' People');
             description = translations[lang].descCapacity;
             break;
         case 'printedBook':
             title = translations[lang].popupPrintedBook;
-            value = fizikiData.basiliKitap.toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US');
+            rawValue = fizikiData.basiliKitap;
+            value = rawValue.toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US');
             description = translations[lang].descPrintedBook;
+            // Kitap Oranı Bar Chart
+            const kitapYuzde = fizikiOranlar.kitap;
+            chartData = {
+                labels: [translations[lang].fizikiKitap, lang === 'tr' ? 'Diğer Basılı' : 'Other Print'],
+                datasets: [{
+                    data: [kitapYuzde, 100 - kitapYuzde],
+                    label: lang === 'tr' ? 'Basılı Envanter Oranı (%)' : 'Print Inventory Ratio (%)',
+                    backgroundColor: ['#ff8800', 'rgba(224,193,126,0.3)'],
+                    borderColor: '#fff',
+                    borderWidth: 1
+                }]
+            };
+            chartType = 'doughnut';
+            chartOptions = {
+                cutout: '60%' 
+            };
+            chartContainer.style.display = 'block';
             break;
         case 'totalResource':
             title = translations[lang].popupTotalResource;
-            value = fizikiData.toplamKayitliKaynak.toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US');
+            rawValue = fizikiData.toplamKayitliKaynak;
+            value = rawValue.toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US');
             description = translations[lang].descTotalResource;
             break;
         case 'periodical':
             title = translations[lang].popupPeriodical;
-            value = fizikiData.sureliYayinAdet.toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US');
+            rawValue = fizikiData.sureliYayinAdet;
+            value = rawValue.toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US');
             description = translations[lang].descPeriodical;
             break;
         case 'digitalArchive':
             title = translations[lang].popupDigitalArchive;
-            value = fizikiData.digitalArchiveTotal.toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US');
+            rawValue = fizikiData.digitalArchiveTotal;
+            value = rawValue.toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US');
             description = translations[lang].descDigitalArchive;
-            // Örnek Bar Chart Verisi (Simülasyon)
+            // Dijital Arşiv İçerik Dağılımı (Milyon cinsinden)
             chartData = {
-                labels: [lang === 'tr' ? 'Belge' : 'Documents', lang === 'tr' ? 'Kitap' : 'Books', lang === 'tr' ? 'Defter' : 'Ledgers'],
+                labels: [lang === 'tr' ? 'Belge' : 'Documents', lang === 'tr' ? 'Defter' : 'Ledgers', lang === 'tr' ? 'Kitap' : 'Books'],
                 datasets: [{
-                    data: [136, 0.1, 0.567], // Milyon cinsinden
+                    data: [136, 0.567, 0.103], 
                     label: lang === 'tr' ? 'Dağılım (Milyon)' : 'Distribution (Million)',
-                    backgroundColor: ['#ff8800', '#0bb4ff', '#ff0055']
+                    backgroundColor: ['#0bb4ff', '#ff0055', '#D4AF37'],
+                    borderColor: '#fff',
+                    borderWidth: 1
                 }]
             };
+            chartType = 'bar';
             chartOptions = {
                 indexAxis: 'y',
                 scales: { x: { ticks: { color: '#ccc' }, grid: { color: 'rgba(255,255,255,0.1)' } }, y: { ticks: { color: '#ccc' }, grid: { display: false } } },
@@ -1072,11 +1265,13 @@ function showInfoPopup(type) {
             break;
         case 'ethesis':
             title = translations[lang].popupEthesis;
-            value = fizikiData.eTez.toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US');
+            rawValue = fizikiData.eTez;
+            value = rawValue.toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US');
             description = translations[lang].descEthesis;
             break;
         case 'ejournal':
             title = translations[lang].popupEjournal;
+            rawValue = 300000000; // Animasyon için sayısal değer
             value = fizikiData.eDergiMakale; // String olduğu için direkt atanır
             description = translations[lang].descEjournal;
             break;
@@ -1086,16 +1281,29 @@ function showInfoPopup(type) {
 
     // Popup elementlerini güncelle
     document.getElementById('popupTitle').textContent = title;
-    document.getElementById('popupValue').textContent = value;
+    // Dinamik sayaç animasyonu başlatmadan önce değeri sıfırla
+    document.getElementById('popupValue').textContent = '0';
+    // String değerler için (Örn: 300 Milyon+)
+    if (typeof rawValue === 'string') {
+        document.getElementById('popupValue').textContent = rawValue;
+    }
     document.getElementById('popupDescription').textContent = description;
     
+    // Dinamik sayaç animasyonu başlat
+    const rawValueNumber = typeof rawValue === 'number' ? rawValue : (rawValue.includes('M') ? parseFloat(rawValue.replace('M+','')) * 1000000 : parseFloat(rawValue));
+
+    if (!isNaN(rawValueNumber) && typeof rawValue === 'number') { 
+        animateValue(popupValueEl, 0, rawValueNumber, 1500); 
+    } else if (typeof rawValue === 'number' && !isNaN(rawValueNumber)) {
+        animateValue(popupValueEl, 0, rawValueNumber, 1000);
+    }
     // Grafiği çiz (Eğer veri varsa)
     if (chartData) {
         const ctx = document.getElementById('popupChart').getContext('2d');
         const existingChart = Chart.getChart('popupChart');
         if (existingChart) existingChart.destroy();
         new Chart(ctx, {
-            type: 'bar',
+            type: chartType,
             data: chartData,
             options: chartOptions
         });
@@ -1155,7 +1363,7 @@ function animateStats() {
 
 /* --- GRAFİKLER --- */
 
-// YENİ GRAFİK: Gauge/Doughnut Grafikleri (Korundu)
+// YENİ GRAFİK: Gauge/Doughnut Grafikleri
 function drawGaugeChart(ctx, value, label, color, lang) {
     const remaining = 100 - value;
     const existingChart = Chart.getChart(ctx.canvas.id);
@@ -1192,10 +1400,8 @@ function drawGaugeChart(ctx, value, label, color, lang) {
                     }
                 }
             },
-            layout: {
-                padding: 10
-            },
-            animation: { duration: 2500, animateRotate: true, animateScale: true }
+            // ŞIK ANİMASYON
+            animation: { duration: 1500, easing: 'easeInOutCubic', animateRotate: true, animateScale: true }
         }
     });
 }
@@ -1223,41 +1429,69 @@ function drawGaugeCharts(lang) {
 }
 
 
-// 2. 2025 AYLIK ZİYARETÇİ GRAFİKLERİ (Korundu)
-function drawZiyaretciCharts(lang) {
-    const commonChartOptions = {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: { labels: { color: '#fff', font: { size: 14 } } },
-            tooltip: chartTooltipLocale(lang)
+// 4. YENİ GRAFİK: Dijital Kaynak Dağılımı (Doughnut Chart)
+function drawDigitalChart(lang) {
+    const labels = [
+        lang === 'tr' ? 'E-Kitap (1.2M)' : 'E-Books (1.2M)',
+        lang === 'tr' ? 'Elektronik Tez (7.9M)' : 'E-Theses (7.9M)',
+        lang === 'tr' ? 'E-Dergi Makale (300M+)' : 'E-Journal Articles (300M+)'
+    ];
+    
+    // Veri toplama ve oran hesaplama: Total Dijital Kayıt Sayısı (Makale baskın olduğu için)
+    const eKitapSayisi = fizikiData.eKitap;
+    const eTezSayisi = fizikiData.eTez;
+    const eDergiMakaleSayisi = 300000000;
+    
+    // Toplam kayıt sayısı (ortalama değerler kullanarak)
+    const totalDigitalItems = eKitapSayisi + eTezSayisi + eDergiMakaleSayisi;
+
+    const oran_eKitap = (eKitapSayisi / totalDigitalItems) * 100;
+    const oran_eTez = (eTezSayisi / totalDigitalItems) * 100;
+    const oran_eDergi = (eDergiMakaleSayisi / totalDigitalItems) * 100;
+
+    const digitalChart = Chart.getChart('digitalChart');
+    if (digitalChart) digitalChart.destroy();
+
+    new Chart(document.getElementById('digitalChart'), {
+        type: 'doughnut',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: lang === 'tr' ? 'Kayıt Sayısı Oranı' : 'Record Count Ratio',
+                data: [oran_eKitap, oran_eTez, oran_eDergi], 
+                backgroundColor: ['#D4AF37', '#0bb4ff', '#ff0055'], // Altın, Mavi, Fuşya
+                borderColor: '#0b1a33',
+                borderWidth: 2
+            }]
         },
-        scales: {
-            x: { grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#ccc', font: { size: 11 } } },
-            y: { grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#ccc', font: { size: 12 }, callback: (value) => value.toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US') }, beginAtZero: true }
-        },
-        animation: { duration: 1500, easing: 'easeOutQuart' }
-    };
-
-    const martChart = Chart.getChart('martZiyaretciChart'); if (martChart) martChart.destroy();
-    new Chart(document.getElementById('martZiyaretciChart'), {
-        type: 'line', data: { labels: ziyaretciData.mart.labels, datasets: [ { label: translations[lang].dailyVisitor, data: ziyaretciData.mart.ziyaret, borderColor: '#0bb4ff', backgroundColor: 'rgba(11, 180, 255, 0.2)', fill: true, tension: 0.3 }, { label: translations[lang].dailyTurnstile, data: ziyaretciData.mart.turnike, borderColor: '#ffeb3b', backgroundColor: 'rgba(255, 235, 59, 0.2)', fill: true, tension: 0.3 } ] }, options: commonChartOptions
-    });
-
-    const nisanChart = Chart.getChart('nisanZiyaretciChart'); if (nisanChart) nisanChart.destroy();
-    new Chart(document.getElementById('nisanZiyaretciChart'), {
-        type: 'line', data: { labels: ziyaretciData.nisan.labels, datasets: [ { label: translations[lang].dailyVisitor, data: ziyaretciData.nisan.ziyaret, borderColor: '#00ffaa', backgroundColor: 'rgba(0, 255, 170, 0.2)', fill: true, tension: 0.3 }, { label: translations[lang].dailyTurnstile, data: ziyaretciData.nisan.turnike, borderColor: '#ff8800', backgroundColor: 'rgba(255, 136, 0, 0.2)', fill: true, tension: 0.3 } ] }, options: commonChartOptions
-    });
-
-    const mayisChart = Chart.getChart('mayisZiyaretciChart'); if (mayisChart) mayisChart.destroy();
-    new Chart(document.getElementById('mayisZiyaretciChart'), {
-        type: 'line', data: { labels: ziyaretciData.mayis.labels, datasets: [ { label: translations[lang].dailyVisitor, data: ziyaretciData.mayis.ziyaret, borderColor: '#6f42c1', backgroundColor: 'rgba(111, 66, 193, 0.2)', fill: true, tension: 0.3 }, { label: translations[lang].dailyTurnstile, data: ziyaretciData.mayis.turnike, borderColor: '#ff0055', backgroundColor: 'rgba(255, 0, 85, 0.2)', fill: true, tension: 0.3 } ] }, options: commonChartOptions
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '50%', // Pasta grafiğini yarım simit yapar
+            plugins: {
+                legend: { position: 'right', labels: { color: '#ccc', font: { size: 14 } } },
+                tooltip: {
+                    callbacks: {
+                        label: (context) => {
+                            const label = context.label || '';
+                            const value = context.parsed;
+                            return `${label}: ${value.toFixed(2)}%`;
+                        }
+                    }
+                }
+            },
+            // ŞIK ANİMASYON
+            animation: { duration: 1500, easing: 'easeInOutCubic', animateRotate: true, animateScale: true }
+        }
     });
 }
 
+
+// 2. 2025 AYLIK ZİYARETÇİ GRAFİKLERİ (ARTIK SADECE AYLIK TOPLAM ÇALIŞIYOR)
 function drawAylikToplamChart(lang) {
-    const aylikLabels = [ translations[lang].monthMart, translations[lang].monthNisan, translations[lang].monthMayis ];
-    const aylikVeriler = [totals.mart, totals.nisan, totals.mayis];
+    // Tüm 9 aylık veriyi kullanıyoruz
+    const aylikLabels = [ translations[lang].monthOcak, translations[lang].monthSubat, translations[lang].monthMart, translations[lang].monthNisan, translations[lang].monthMayis, translations[lang].monthHaziran, translations[lang].monthTemmuz, translations[lang].monthAgustos, translations[lang].monthEylul ];
+    const aylikVeriler = [totals.ocak, totals.subat, totals.mart, totals.nisan, totals.mayis, totals.haziran, totals.temmuz, totals.agustos, totals.eylul];
 
     const aylikChart = Chart.getChart('aylikToplamChart'); if (aylikChart) aylikChart.destroy();
 
@@ -1268,7 +1502,7 @@ function drawAylikToplamChart(lang) {
             datasets: [{
                 label: translations[lang].visitorCount,
                 data: aylikVeriler,
-                backgroundColor: ['#0bb4ff', '#00ffaa', '#ffeb3b'],
+                backgroundColor: ['#0bb4ff', '#00ffaa', '#ffeb3b', '#D4AF37', '#6f42c1', '#ff0055', '#00ffff', '#9f7dcd', '#ff6600'],
                 borderColor: '#fff',
                 borderWidth: 1
             }]
@@ -1282,14 +1516,15 @@ function drawAylikToplamChart(lang) {
             },
             scales: {
                 x: { grid: { display: false }, ticks: { color: '#ccc', font: { size: 14 } } },
-                y: { grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#ccc', font: { size: 12 }, beginAtZero: true, callback: (value) => value.toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US') } }
+                y: { grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#ccc', font: { size: 12 }, callback: (value) => value.toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US') } }
             },
-            animation: { duration: 1800, easing: 'easeOutBounce' }
+            // ŞIK ANİMASYON
+            animation: { duration: 1800, easing: 'easeOutExpo' } 
         }
     });
 }
 
-// 3. YILLIK ZİYARETÇİ GRAFİKLERİ (Korundu)
+// 3. YILLIK ZİYARETÇİ GRAFİKLERİ (GÜNCELLENDİ)
 function drawYillikTrendChart(lang) {
     const existingChart = Chart.getChart('yillikTrendChart'); if (existingChart) existingChart.destroy();
     
@@ -1318,15 +1553,16 @@ function drawYillikTrendChart(lang) {
             },
             scales: {
                 x: { grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#ccc', font: { size: 14 } } },
-                y: { grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#ccc', font: { size: 12 }, beginAtZero: true, callback: (value) => value.toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US') } }
+                y: { grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#ccc', font: { size: 12 }, callback: (value) => value.toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US') } }
             },
-            animation: { duration: 2500, easing: 'easeOutElastic' }
+            // ŞIK ANİMASYON
+            animation: { duration: 1800, easing: 'easeInOutQuart' } 
         }
     });
 }
 
 function drawYillikOranChart(lang) {
-    const colors = ['#D4AF37', '#0bb4ff', '#00ffaa', '#ff8800', '#ff0055'];
+    const colors = ['#D4AF37', '#0bb4ff', '#00ffaa', '#ff8800', '#ff0055', '#9f7dcd'];
     const percentages = yillikData.visits.map(v => ((v / yillikData.total) * 100).toFixed(2));
 
     const existingChart = Chart.getChart('yillikOranChart'); if (existingChart) existingChart.destroy();
@@ -1361,7 +1597,46 @@ function drawYillikOranChart(lang) {
                     }
                 }
             },
-            animation: { animateScale: true, animateRotate: true }
+            // ŞIK ANİMASYON
+            animation: { duration: 1500, easing: 'easeInOutCubic', animateScale: true, animateRotate: true } 
+        }
+    });
+}
+
+// YENİ TUR HİZMETİ GRAFİĞİ
+function drawTurHizmetiChart(lang) {
+    // Tur Hizmeti verileri (Ocak-Eylül)
+    const turLabels = [ translations[lang].monthOcak, translations[lang].monthSubat, translations[lang].monthMart, translations[lang].monthNisan, translations[lang].monthMayis, translations[lang].monthHaziran, translations[lang].monthTemmuz, translations[lang].monthAgustos, translations[lang].monthEylul ];
+    const turVeriler = [turHizmetiData.ocak, turHizmetiData.subat, turHizmetiData.mart, turHizmetiData.nisan, turHizmetiData.mayis, turHizmetiData.haziran, turHizmetiData.temmuz, turHizmetiData.agustos, turHizmetiData.eylul];
+
+    const turChart = Chart.getChart('turHizmetiChart'); 
+    if (turChart) turChart.destroy();
+
+    new Chart(document.getElementById('turHizmetiChart'), {
+        type: 'bar',
+        data: {
+            labels: turLabels,
+            datasets: [{
+                label: translations[lang].turHizmetiToplam,
+                data: turVeriler,
+                backgroundColor: '#00ffff', // Siyan/Turkuaz vurgu rengi
+                borderColor: '#fff',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: chartTooltipLocale(lang)
+            },
+            scales: {
+                x: { grid: { display: false }, ticks: { color: '#ccc', font: { size: 14 } } },
+                y: { grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#ccc', font: { size: 12 }, callback: (value) => value.toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US') } }
+            },
+            // ŞIK ANİMASYON
+            animation: { duration: 1800, easing: 'easeOutExpo' }
         }
     });
 }
